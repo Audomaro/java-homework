@@ -1,4 +1,4 @@
-package org.audomaro;
+package org.week1;
 
 public class Divisible3or7 {
     public static void main(String[] args) {

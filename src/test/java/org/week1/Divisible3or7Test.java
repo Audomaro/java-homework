@@ -1,4 +1,4 @@
-package org.audomaro;
+package org.week1;
 
 
 import org.junit.jupiter.api.Test;

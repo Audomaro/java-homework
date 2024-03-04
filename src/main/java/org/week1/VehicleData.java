@@ -1,4 +1,4 @@
-package org.audomaro;
+package org.week1;
 
 public class VehicleData {
     public static void main(String[] args) {
