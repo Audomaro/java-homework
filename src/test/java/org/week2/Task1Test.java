@@ -7,7 +7,7 @@ import static org.week2.Task1.squareArray;
 
 public class Task1Test {
     @Test
-    public void  test36() {
+    public void test36() {
         int expected = 36;
 
         int[] data = squareArray(10);
@@ -17,7 +17,7 @@ public class Task1Test {
     }
 
     @Test
-    public void  test25() {
+    public void test25() {
         int expected = 25;
 
         int[] data = squareArray(10);
