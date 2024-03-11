@@ -5,18 +5,21 @@ import java.time.LocalDate;
 public class Adopter {
     private int id;
     private String name;
+    private String numberPhone;
+    private LocalDate dateOfAdoption;
+    private PetType petTypeAdopted;
+    private BreedPet breedPet;
+    private int agePet;
 
-    public Adopter(int id, String name, String numberPhone, LocalDate dateOfAdoption, Pets typePetOfAdopted) {
+    public Adopter(int id, String name, String numberPhone, LocalDate dateOfAdoption, PetType petTypeAdopted, BreedPet breedPet, int agePet) {
         this.id = id;
         this.name = name;
         this.numberPhone = numberPhone;
         this.dateOfAdoption = dateOfAdoption;
-        this.typePetOfAdopted = typePetOfAdopted;
+        this.petTypeAdopted = petTypeAdopted;
+        this.breedPet = breedPet;
+        this.agePet = agePet;
     }
-
-    private String numberPhone;
-    private LocalDate dateOfAdoption;
-    private  Pets typePetOfAdopted;
 
     public int getId() {
         return id;
@@ -50,11 +53,27 @@ public class Adopter {
         this.dateOfAdoption = dateOfAdoption;
     }
 
-    public Pets getTypePetOfAdopted() {
-        return typePetOfAdopted;
+    public PetType getPetTypeAdopted() {
+        return petTypeAdopted;
     }
 
-    public void setTypePetOfAdopted(Pets typePetOfAdopted) {
-        this.typePetOfAdopted = typePetOfAdopted;
+    public void setPetTypeAdopted(PetType petTypeAdopted) {
+        this.petTypeAdopted = petTypeAdopted;
+    }
+
+    public BreedPet getBreedPet() {
+        return breedPet;
+    }
+
+    public void setBreedPet(BreedPet breedPet) {
+        this.breedPet = breedPet;
+    }
+
+    public int getAgePet() {
+        return agePet;
+    }
+
+    public void setAgePet(int agePet) {
+        this.agePet = agePet;
     }
 }
