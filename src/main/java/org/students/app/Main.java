@@ -15,7 +15,6 @@ public class Main {
         studentService.addStudent(new Student("Alice", 22));
         studentService.addStudent(new Student("Bob", 33));
         studentService.addStudent(new Student("Jane", 44));
-        studentService.addStudent(new Student("John", 55));
 
         // Get all students
         System.out.println("=============== Listar todos los estudiantes");

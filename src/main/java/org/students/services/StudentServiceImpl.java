@@ -1,18 +1,19 @@
 package org.students.services;
 
 import org.students.domain.Student;
+import org.students.repositories.StudentRepository;
 import org.students.repositories.StudentRepositoryImpl;
 
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
-    private final StudentRepositoryImpl studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentServiceImpl() {
         this.studentRepository = new StudentRepositoryImpl();
     }
 
-    public StudentServiceImpl(StudentRepositoryImpl studentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
