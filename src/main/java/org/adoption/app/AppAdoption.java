@@ -1,4 +1,4 @@
-package org.adoption.service;
+package org.adoption.app;
 
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdopterService {
+public class AppAdoption {
     public static void main(String[] args) {
-         List<Adopter> adopterList = new ArrayList<>();
+        List<Adopter> adopterList = new ArrayList<>();
 
         adopterList.add(new Adopter(
                 1,

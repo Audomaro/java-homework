@@ -3,7 +3,6 @@ package org.adoption.domain;
 import com.github.javafaker.Faker;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class Adopter {
 
@@ -29,8 +28,7 @@ public class Adopter {
                 name,
                 phoneNumber,
                 adoptionDate,
-                pet
-        );
+                pet);
     }
 
     public Adopter(Pet pet) {
@@ -39,8 +37,7 @@ public class Adopter {
                 new Faker().name().fullName(),
                 new Faker().phoneNumber().phoneNumber(),
                 LocalDate.now(),
-                pet
-        );
+                pet);
     }
 
     public int getId() {
@@ -94,4 +91,3 @@ public class Adopter {
                 '}';
     }
 }
-

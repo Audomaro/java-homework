@@ -1,14 +1,10 @@
 package org.adoption.domain;
 
-import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PetTest {
-
     @Test
     public void shouldBeValidPet() {
         int petId = 1;
@@ -48,8 +44,20 @@ class PetTest {
 
         Pet current = new Pet(Pet.PetType.CAT);
 
-        assertNotSame(unexpected,current.getType());
+        assertNotSame(unexpected, current.getType());
     }
 
+    @Test
+    void PetBuilderTest() {
+        Pet pet = Pet.builder()
+                .petId(1)
+                .name("x")
+                .breed(Pet.BreedType.Buldog)
+                .type(Pet.PetType.CAT)
+                .build();
+        ;
+
+        assertEquals("x", pet.getName());
+    }
 
 }

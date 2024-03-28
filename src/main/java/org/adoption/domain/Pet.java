@@ -48,6 +48,10 @@ public class Pet {
         );
     }
 
+    public Pet() {
+
+    }
+
     public int getPetId() {
         return petId;
     }
@@ -88,5 +92,57 @@ public class Pet {
                 ", type=" + type +
                 ", breed=" + breed +
                 '}';
+    }
+
+    public  static PetBuilder builder() {
+        return new PetBuilder();
+    }
+    ////////////////////////////////////
+
+    public static class PetBuilder {
+        private int petId;
+        private String name;
+        private PetType type;
+        private BreedType breed;
+
+        public PetBuilder(){
+
+        }
+        public PetBuilder petId(int petId) {
+            this.petId = petId;
+            return this;
+        }
+
+        public PetBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public PetBuilder type(PetType type) {
+            this.type = type;
+            return this;
+        }
+
+        public PetBuilder breed(BreedType breed) {
+            this.breed = breed;
+            return this;
+        }
+
+        public Pet build() {
+
+            if (petId == 0) {
+                petId = new Faker().random().nextInt(100);
+            }
+
+            if (name == null) {
+                name = new Faker().funnyName().name();
+            }
+
+            if (breed == null) {
+                breed = BreedType.Unknowk;
+            }
+
+            return new Pet(petId, name, type, breed);
+        }
     }
 }
