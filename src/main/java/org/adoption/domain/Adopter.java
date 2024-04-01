@@ -2,6 +2,7 @@ package org.adoption.domain;
 
 import com.github.javafaker.Faker;
 
+import java.util.Random;
 import java.time.LocalDate;
 
 public class Adopter {
@@ -33,10 +34,10 @@ public class Adopter {
 
     public Adopter(Pet pet) {
         this(
-                new Faker().random().nextInt(100),
+                new Faker().random().nextInt(1000),
                 new Faker().name().fullName(),
                 new Faker().phoneNumber().phoneNumber(),
-                LocalDate.now(),
+                randomAdoptionDate(),
                 pet);
     }
 
@@ -78,6 +79,14 @@ public class Adopter {
 
     public void setPet(Pet pet) {
         this.pet = pet;
+    }
+
+    public static  LocalDate randomAdoptionDate() {
+        Random random = new Random();
+        int minDay = (int) LocalDate.of(2020, 1, 1).toEpochDay();
+        int maxDay = (int) LocalDate.now().toEpochDay();
+        long randomDay = minDay + random.nextInt(maxDay - minDay);
+        return LocalDate.ofEpochDay(randomDay);
     }
 
     @Override

@@ -1,44 +1,49 @@
 package org.students.services;
 
+import org.students.dao.DAO;
+import org.students.dao.DAOFactory;
 import org.students.domain.Student;
-import org.students.repositories.StudentRepository;
-import org.students.repositories.StudentRepositoryImpl;
+import org.students.dao.InMemoryDAO;
 
 import java.util.List;
 
 public class StudentServiceImpl implements StudentService {
-    private final StudentRepository studentRepository;
+    private DAO studentDAO;
 
     public StudentServiceImpl() {
-        this.studentRepository = new StudentRepositoryImpl();
+        this.studentDAO = DAOFactory.studentDAO();
     }
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
-
-    @Override
-    public void addStudent(Student student) {
-        studentRepository.addStudent(student);
+    public StudentServiceImpl(DAO studentDAO) {
+        this.studentDAO = studentDAO;
     }
 
     @Override
-    public Student getStudentById(int id) {
-        return studentRepository.getStudentById(id);
+    public Student addStudent(Student student) {
+        return studentDAO.insert(student);
     }
 
     @Override
-    public void updateStudent(Student updatedStudent) {
-        studentRepository.updateStudent(updatedStudent);
+    public Student getStudent(int id) {
+        return studentDAO.findByID(id);
     }
 
     @Override
-    public void deleteStudent(int id) {
-        studentRepository.deleteStudent(id);
+    public boolean updateStudent(Student updatedStudent) {
+        return studentDAO.update(updatedStudent);
+    }
+
+    @Override
+    public boolean deleteStudent(int id) {
+        return studentDAO.delete(id);
     }
 
     @Override
     public List<Student> getAllStudents() {
-        return studentRepository.getAllStudents();
+        return studentDAO.findAll();
+    }
+
+    public void setDAO(DAO studentDAO) {
+        this.studentDAO = studentDAO;
     }
 }

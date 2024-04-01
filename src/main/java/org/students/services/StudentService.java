@@ -1,17 +1,20 @@
 package org.students.services;
 
+import org.students.dao.DAO;
 import org.students.domain.Student;
 
 import java.util.List;
 
 public interface StudentService {
-    void addStudent(Student student);
+    Student addStudent(Student student);
 
-    Student getStudentById(int id);
+    Student getStudent(int id);
 
-    void updateStudent(Student updatedStudent);
+    boolean updateStudent(Student updatedStudent);
 
-    void deleteStudent(int id);
+    boolean deleteStudent(int id);
 
     List<Student> getAllStudents();
+
+    public void setDAO(DAO studentDAO);
 }

@@ -1,15 +1,14 @@
 package org.students.app;
 
+import org.students.dao.DAO;
+import org.students.dao.DAOFactory;
 import org.students.domain.Student;
-import org.students.repositories.StudentRepositoryImpl;
+import org.students.dao.InMemoryDAO;
 import org.students.services.StudentServiceImpl;
-
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        StudentRepositoryImpl studentRepository = new StudentRepositoryImpl();
-        StudentServiceImpl studentService = new StudentServiceImpl(studentRepository);
+        StudentServiceImpl studentService = DAOFactory.studentService();
 
         studentService.addStudent(new Student("John", 20));
         studentService.addStudent(new Student("Alice", 22));
@@ -18,31 +17,25 @@ public class Main {
 
         // Get all students
         System.out.println("=============== Listar todos los estudiantes");
-        List<Student> students = studentService.getAllStudents();
-        for (Student student : students) {
-            System.out.println(student);
-        }
+        studentService.getAllStudents().forEach(System.out::println);
 
         System.out.println("=============== Estudiante con ID 2");
 
-        Student studentById = studentService.getStudentById(2);
+        Student studentById = studentService.getStudent(2);
         System.out.println("Estudiante con ID 2: " + studentById.getName());
 
         System.out.println("=============== Actualizar estudiante con ID 2");
         studentById.setName("Alice Update");
         studentService.updateStudent(studentById);
 
-        studentById = studentService.getStudentById(2);
+        studentById = studentService.getStudent(2);
         System.out.println("Estudiante con ID 2: " + studentById.getName());
 
         System.out.println("=============== Eliminar estudiante con ID 1 y 5");
         studentService.deleteStudent(1);
         studentService.deleteStudent(5);
 
-        List<Student> updatedStudents = studentService.getAllStudents();
         System.out.println("Estudiantes después de eliminar:");
-        for (Student student : updatedStudents) {
-            System.out.println(student);
-        }
+        studentService.getAllStudents().forEach(System.out::println);
     }
 }
