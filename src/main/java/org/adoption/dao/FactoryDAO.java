@@ -1,11 +1,5 @@
 package org.adoption.dao;
 
-import org.adoption.services.AdopterServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,7 +8,7 @@ public class FactoryDAO {
     private static final Map<String, Object> objects = new ConcurrentHashMap<>();
 
     private static final ResourceBundle bundle = ResourceBundle.getBundle("app");
-    private static String profile;
+    private static final String profile;
     static {
         profile = bundle.getString("backend.profile");
     }

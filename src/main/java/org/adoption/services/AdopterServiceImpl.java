@@ -1,9 +1,7 @@
 package org.adoption.services;
 import org.adoption.dao.AdopterDAO;
-import org.adoption.dao.FactoryDAO;
 import org.adoption.domain.Adopter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

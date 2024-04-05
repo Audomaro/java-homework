@@ -2,7 +2,6 @@ package org.adoption.services;
 
 import org.adoption.dao.AdopterDAO;
 import org.adoption.domain.Adopter;
-import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;

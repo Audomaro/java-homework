@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,17 +16,17 @@ import java.util.stream.Collectors;
 @Profile("prod")
 public class JPADAO implements AdopterDAO {
     private static Map<Integer, Adopter> adopters;
-    private final AtomicInteger nextId ;
+    //private final AtomicInteger nextId ;
 
     public JPADAO() {
         adopters = new ConcurrentHashMap<>();
-        this.nextId = new AtomicInteger(1);
+        //this.nextId = new AtomicInteger(1);
         System.out.println("DAO DE PROD");
     }
 
     @Override
     public Adopter insert(Adopter student) {
-        student.setId(nextId.getAndIncrement());
+        //student.setId(nextId.getAndIncrement());
         adopters.put(student.getId(), student);
         return student;
     }

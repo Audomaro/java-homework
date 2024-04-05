@@ -5,7 +5,6 @@ import org.adoption.domain.Adopter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public interface AdopterDAO {
     Adopter insert(Adopter student);
@@ -18,11 +17,11 @@ public interface AdopterDAO {
 
     List<Adopter> findAll();
 
-    public List<Adopter> findByName(String name);
+    List<Adopter> findByName(String name);
 
-    public List<Adopter> sortByAdoptionDate();
+    List<Adopter> sortByAdoptionDate();
 
-    public List<Adopter> findBy(Predicate<Adopter> criteria);
+    List<Adopter> findBy(Predicate<Adopter> criteria);
 
-    public List<Adopter> orderBy(Comparator<Adopter> comparator);
+    List<Adopter> orderBy(Comparator<Adopter> comparator);
 }

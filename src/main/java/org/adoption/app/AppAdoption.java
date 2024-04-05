@@ -69,8 +69,8 @@ public class AppAdoption {
         ss.addAdopter(new Adopter(new Pet(Pet.PetType.DOG)));
         ss.addAdopter(new Adopter(new Pet(Pet.PetType.TURTLE)));
 
-        System.out.println("ORDER BY ***");
-        Comparator<Adopter> orderBy = Comparator.comparing(Adopter::getId);
+        System.out.println("ORDER BY PhoneNumber");
+        Comparator<Adopter> orderBy = Comparator.comparing(Adopter::getPhoneNumber);
         ss.orderBy(orderBy).forEach(System.out::println);
 
         context.close();

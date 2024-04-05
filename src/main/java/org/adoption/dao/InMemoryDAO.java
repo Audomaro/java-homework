@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,11 +16,11 @@ import java.util.stream.Collectors;
 @Profile("dev")
 public class InMemoryDAO implements AdopterDAO {
     private static Map<Integer, Adopter> adopters;
-    private final AtomicInteger nextId ;
+    //private final AtomicInteger nextId ;
 
     public InMemoryDAO() {
         adopters = new ConcurrentHashMap<>();
-        this.nextId = new AtomicInteger(1);
+        //this.nextId = new AtomicInteger(1);
         System.out.println("DAO DE DEV");
     }
 

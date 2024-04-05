@@ -25,7 +25,7 @@ public class Adopter {
 
     public Adopter(String name, String phoneNumber, LocalDate adoptionDate, Pet pet) {
         this(
-                new Faker().random().nextInt(100),
+                new Faker().random().nextInt(10000),
                 name,
                 phoneNumber,
                 adoptionDate,
@@ -34,7 +34,7 @@ public class Adopter {
 
     public Adopter(Pet pet) {
         this(
-                new Faker().random().nextInt(1000),
+                new Faker().random().nextInt(10000),
                 new Faker().name().fullName(),
                 new Faker().phoneNumber().phoneNumber(),
                 randomAdoptionDate(),
