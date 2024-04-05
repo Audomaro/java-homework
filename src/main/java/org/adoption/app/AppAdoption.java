@@ -2,28 +2,33 @@ package org.adoption.app;
 
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
+import org.adoption.jconfig.AppConfig;
 import org.adoption.services.*;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
 import java.util.Comparator;
 
 public class AppAdoption {
     public static void main(String[] args) {
-        AdopterService adopterService = new AdopterService();
 
-        genData(adopterService);
-
-        System.out.println("- Order by number phone");
-        Comparator<Adopter> comparator = Comparator.comparing(Adopter::getPhoneNumber);
-        adopterService.orderBy(comparator).forEach(System.out::println);
-
-        System.out.println("- Order by id");
-        comparator = Comparator.comparing(Adopter::getId);
-        adopterService.orderBy(comparator).forEach(System.out::println);
-
-        System.out.println("- Order by name");
-        comparator = Comparator.comparing(Adopter::getName);
-        adopterService.orderBy(comparator).forEach(System.out::println);
+        runAs("dev");
+        runAs("prod");
+//        AdopterServiceImpl adopterService = new AdopterServiceImpl();
+//
+//        genData(adopterService);
+//
+//        System.out.println("- Order by number phone");
+//        Comparator<Adopter> comparator = Comparator.comparing(Adopter::getPhoneNumber);
+//        adopterService.orderBy(comparator).forEach(System.out::println);
+//
+//        System.out.println("- Order by id");
+//        comparator = Comparator.comparing(Adopter::getId);
+//        adopterService.orderBy(comparator).forEach(System.out::println);
+//
+//        System.out.println("- Order by name");
+//        comparator = Comparator.comparing(Adopter::getName);
+//        adopterService.orderBy(comparator).forEach(System.out::println);
 
 //        // LISTAR TODOS LOS ADOPTERS
 //        adopterService.findAll().forEach(System.out::println);
@@ -51,7 +56,27 @@ public class AppAdoption {
 //        adopterService.findBy(where).forEach(System.out::println);
     }
 
-    private static void genData(AdopterService adopterService) {
+    private static void runAs(String profile) {
+        System.out.printf("===================== [%s] =====================\r\n", profile);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.getEnvironment().setActiveProfiles(profile);
+        context.register(AppConfig.class);
+        context.scan("org.adoption");
+        context.refresh();
+
+        AdopterService ss = context.getBean("AdopterService", AdopterService.class);
+        ss.addAdopter(new Adopter(new Pet(Pet.PetType.CAT)));
+        ss.addAdopter(new Adopter(new Pet(Pet.PetType.DOG)));
+        ss.addAdopter(new Adopter(new Pet(Pet.PetType.TURTLE)));
+
+        System.out.println("ORDER BY ***");
+        Comparator<Adopter> orderBy = Comparator.comparing(Adopter::getId);
+        ss.orderBy(orderBy).forEach(System.out::println);
+
+        context.close();
+    }
+
+    private static void genData(AdopterServiceImpl adopterService) {
         adopterService.addAdopter(new Adopter(
                 1,
                 "Celia / ADOPTER ALL DATA",

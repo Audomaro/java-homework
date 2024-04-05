@@ -1,6 +1,10 @@
 package org.adoption.dao;
 
-import org.adoption.services.AdopterService;
+import org.adoption.services.AdopterServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -33,15 +37,15 @@ public class FactoryDAO {
         };
     }
 
-    private static AdopterService adopterService() {
-        return (AdopterService) objects.computeIfAbsent("adopterService",
-                k -> {
-                    AdopterService as = new AdopterService();
-
-                    AdopterDAO dao = adopterDAO();
-
-                    as.setDAO(dao);
-                    return as;
-                });
-    }
+//    private static AdopterServiceImpl adopterService() {
+//        return (AdopterServiceImpl) objects.computeIfAbsent("adopterService",
+//                k -> {
+//                    AdopterServiceImpl as = new AdopterServiceImpl();
+//
+//                    AdopterDAO dao = adopterDAO();
+//
+//                    as.setDAO(dao);
+//                    return as;
+//                });
+//    }
 }

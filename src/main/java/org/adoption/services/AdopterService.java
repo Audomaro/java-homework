@@ -1,59 +1,32 @@
 package org.adoption.services;
+
 import org.adoption.dao.AdopterDAO;
-import org.adoption.dao.FactoryDAO;
 import org.adoption.domain.Adopter;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class AdopterService {
 
-    private AdopterDAO adopters;
+public interface AdopterService {
+    Adopter addAdopter(Adopter adopter);
 
-    public AdopterService() {
-        adopters = FactoryDAO.adopterDAO();
-    }
+    boolean removeAdopter(Adopter adopter);
 
-    public Adopter addAdopter(Adopter adopter) {
-        adopters.insert(adopter);
-        return adopter;
-    }
+    boolean updateAdopter(Adopter newAdopter);
 
-    public boolean removeAdopter(Adopter adopter) {
-        return adopters.delete(adopter.getId());
-    }
+    List<Adopter> findAll();
 
-    public boolean updateAdopter(Adopter newAdopter) {
+    Adopter findByID(int id);
 
-        return adopters.update(newAdopter);
-    }
+    List<Adopter> findByName(String name);
 
-    public List<Adopter> findAll() {
-        return adopters.findAll();
-    }
+    List<Adopter> sortByAdoptionDate();
 
-    public Adopter findByID(int id) {
-        return adopters.findByID(id);
-    }
+    List<Adopter> findBy(Predicate<Adopter> criteria);
 
-    public List<Adopter> findByName(String name) {
-        return adopters.findByName(name);
-    }
+    List<Adopter> orderBy(Comparator<Adopter> comparator);
 
-    public List<Adopter> sortByAdoptionDate() {
-        return adopters.sortByAdoptionDate();
-    }
-
-    public List<Adopter> findBy(Predicate<Adopter> criteria) {
-        return adopters.findBy(criteria);
-    }
-
-    public List<Adopter> orderBy(Comparator<Adopter> comparator) {
-        return adopters.orderBy(comparator);
-    }
-
-    public void setDAO(AdopterDAO dao) {
-        adopters = dao;
-    }
+    void setDAO(AdopterDAO dao);
 }

@@ -1,6 +1,8 @@
 package org.adoption.dao;
 
 import org.adoption.domain.Adopter;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,6 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Repository
+@Profile("prod")
 public class JPADAO implements AdopterDAO {
     private static Map<Integer, Adopter> adopters;
     private final AtomicInteger nextId ;
@@ -18,6 +22,7 @@ public class JPADAO implements AdopterDAO {
     public JPADAO() {
         adopters = new ConcurrentHashMap<>();
         this.nextId = new AtomicInteger(1);
+        System.out.println("DAO DE PROD");
     }
 
     @Override

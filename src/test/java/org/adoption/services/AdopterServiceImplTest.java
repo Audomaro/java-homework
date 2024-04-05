@@ -3,12 +3,7 @@ package org.adoption.services;
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.students.dao.InMemoryDAO;
-import org.students.domain.Student;
-import org.students.services.StudentService;
-import org.students.services.StudentServiceImpl;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -17,12 +12,12 @@ import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AdopterServiceTest {
+class AdopterServiceImplTest {
 
-    private static AdopterService adopterService;
+    private static AdopterServiceImpl adopterService;
     @BeforeEach
     void setUp() {
-        adopterService =  new AdopterService();
+        adopterService =  new AdopterServiceImpl();
 
         adopterService.addAdopter(new Adopter(
                 1,
@@ -94,7 +89,7 @@ class AdopterServiceTest {
 
     @Test
     public void testFindByID() {
-        AdopterService adopterService = new AdopterService();
+        AdopterServiceImpl adopterService = new AdopterServiceImpl();
         Adopter alice = new Adopter("Alice", "654-65651-3515", LocalDate.of(2023, 5, 10), new Pet(Pet.PetType.CAT));
         adopterService.addAdopter(alice);
 
