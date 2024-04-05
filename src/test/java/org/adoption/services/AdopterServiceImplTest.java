@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AdopterServiceImplTest {
 
     @Autowired
-    private AdopterServiceImpl adopterService;
+    private AdopterService adopterService;
 
     @BeforeEach
     void setUp() {
