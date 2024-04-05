@@ -2,8 +2,15 @@ package org.adoption.services;
 
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
+import org.adoption.jconfig.AppConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -12,13 +19,17 @@ import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {AppConfig.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@ActiveProfiles({"dev"})
 class AdopterServiceImplTest {
 
-    private static AdopterServiceImpl adopterService;
+    @Autowired
+    private AdopterServiceImpl adopterService;
+
     @BeforeEach
     void setUp() {
-        adopterService =  new AdopterServiceImpl();
-
         adopterService.addAdopter(new Adopter(
                 1,
                 "Celia A",
@@ -89,7 +100,7 @@ class AdopterServiceImplTest {
 
     @Test
     public void testFindByID() {
-        AdopterServiceImpl adopterService = new AdopterServiceImpl();
+        //AdopterServiceImpl adopterService = new AdopterServiceImpl();
         Adopter alice = new Adopter("Alice", "654-65651-3515", LocalDate.of(2023, 5, 10), new Pet(Pet.PetType.CAT));
         adopterService.addAdopter(alice);
 

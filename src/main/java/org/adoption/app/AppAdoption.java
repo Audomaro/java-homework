@@ -61,7 +61,7 @@ public class AppAdoption {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
         context.getEnvironment().setActiveProfiles(profile);
         context.register(AppConfig.class);
-        context.scan("org.adoption");
+//        context.scan("org.adoption");
         context.refresh();
 
         AdopterService ss = context.getBean("AdopterService", AdopterService.class);
