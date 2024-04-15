@@ -63,7 +63,7 @@ public class AppAdoption {
         context.register(AppConfig.class);
         context.refresh();
 
-        AdopterService ss = context.getBean("AdopterService", AdopterService.class);
+        AdopterService ss = context.getBean("Adopter_Service", AdopterService.class);
         ss.addAdopter(new Adopter(new Pet(Pet.PetType.CAT)));
         ss.addAdopter(new Adopter(new Pet(Pet.PetType.DOG)));
         ss.addAdopter(new Adopter(new Pet(Pet.PetType.TURTLE)));

@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
-@Service("AdopterService")
+@Service("Adopter_Service")
 public class AdopterServiceImpl implements AdopterService {
 
     @Autowired
