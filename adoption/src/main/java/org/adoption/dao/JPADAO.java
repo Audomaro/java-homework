@@ -17,12 +17,10 @@ import java.util.stream.Collectors;
 @Profile("prod")
 public class JPADAO implements AdopterDAO {
     private static Map<Integer, Adopter> adopters;
-    //private final AtomicInteger nextId ;
 
     public JPADAO() {
-        adopters = new ConcurrentHashMap<>();
-        //this.nextId = new AtomicInteger(1);
         System.out.println("DAO DE PROD");
+        adopters = new ConcurrentHashMap<>();
     }
 
     @Override

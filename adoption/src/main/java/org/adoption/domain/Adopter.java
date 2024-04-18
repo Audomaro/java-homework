@@ -15,6 +15,11 @@ public class Adopter {
 
     final Faker faker = new Faker();
 
+    public Adopter(){
+        this.id = faker.number().numberBetween(1, 999);
+        this.pet = new Pet();
+    }
+
     public Adopter(int id, String name, String phoneNumber, LocalDate adoptionDate, Pet pet) {
         this.id = id;
         this.name = name;

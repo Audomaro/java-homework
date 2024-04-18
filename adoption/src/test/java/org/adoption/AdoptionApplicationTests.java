@@ -22,9 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AdoptionApplication.class})
 @SpringBootTest
-@ActiveProfiles({"dev"})
+@ActiveProfiles({"prod"})
 class AdoptionApplicationTests {
 
 	@Autowired
@@ -75,7 +74,7 @@ class AdoptionApplicationTests {
 	@Test
 	public void testRemoveAdopter() {
 		Adopter adopterToRemove = adopterService.findByID(1);
-		boolean removed = adopterService.removeAdopter(adopterToRemove);
+		boolean removed = adopterService.removeAdopter(adopterToRemove.getId());
 		assertTrue(removed);
 	}
 

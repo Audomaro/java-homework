@@ -28,6 +28,13 @@ public class Pet {
     private PetType type;
     private BreedType breed;
 
+    public Pet(){
+        this.petId = new Faker().random().nextInt(100);
+        this.name  = new Faker().funnyName().name();
+        this.type = PetType.TURTLE;
+        this.breed = BreedType.Unknowk;
+    }
+
     public Pet(int petId, String name, PetType type, BreedType breed) {
         this.petId = petId;
         this.name = name;
@@ -46,10 +53,6 @@ public class Pet {
                 type,
                 BreedType.Unknowk
         );
-    }
-
-    public Pet() {
-
     }
 
     public int getPetId() {

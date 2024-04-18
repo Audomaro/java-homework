@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public interface AdopterService {
     Adopter addAdopter(Adopter adopter);
 
-    boolean removeAdopter(Adopter adopter);
+    boolean removeAdopter(int id);
 
     boolean updateAdopter(Adopter newAdopter);
 

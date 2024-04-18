@@ -24,8 +24,8 @@ public class AdopterServiceImpl implements AdopterService {
     }
 
     @Override
-    public boolean removeAdopter(Adopter adopter) {
-        return adopters.delete(adopter.getId());
+    public boolean removeAdopter(int id) {
+        return adopters.delete(id);
     }
 
     @Override

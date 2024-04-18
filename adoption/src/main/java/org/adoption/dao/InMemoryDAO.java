@@ -16,17 +16,14 @@ import java.util.stream.Collectors;
 @Profile("dev")
 public class InMemoryDAO implements AdopterDAO {
     private static Map<Integer, Adopter> adopters;
-    //private final AtomicInteger nextId ;
 
     public InMemoryDAO() {
-        adopters = new ConcurrentHashMap<>();
-        //this.nextId = new AtomicInteger(1);
         System.out.println("DAO DE DEV");
+        adopters = new ConcurrentHashMap<>();
     }
 
     @Override
     public Adopter insert(Adopter adopter) {
-//        student.setId(nextId.getAndIncrement());
         adopters.put(adopter.getId(), adopter);
         return adopter;
     }
