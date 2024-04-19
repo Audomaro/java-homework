@@ -29,7 +29,7 @@ public class AdopterController {
         Adopter adopter = adopterService.findByID(id);
 
         if (adopter == null) {
-            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("No adopter with id: " + id);
+            return ResponseEntity.status(HttpStatus.OK).body(STR."No adopter with id: \{id}");
         }
 
         return ResponseEntity.ok(adopter);
@@ -53,8 +53,8 @@ public class AdopterController {
         boolean result = adopterService.updateAdopter(adopter);
 
         if(!result) {
-            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT)
-                    .body("No adopter with id: " + adopter.getId());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(STR."No adopter with id: \{adopter.getId()}");
         }
 
         return ResponseEntity.noContent().build();
@@ -65,7 +65,7 @@ public class AdopterController {
         boolean result = adopterService.removeAdopter(id);
 
         if(!result) {
-            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("No adopter with id: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(STR."No adopter with id: \{id}");
         }
 
         return ResponseEntity.noContent().build();
