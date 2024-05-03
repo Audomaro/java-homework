@@ -1,0 +1,10 @@
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Mair Marmyon', '758-126-8010', '1/30/2024', 23);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Cristine Leander', '312-754-3214', '1/22/2022', 46);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Anabelle Wybron', '367-222-4647', '12/6/2020', 15);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Karlen Lared', '269-786-8045', '12/25/2022', 15);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Gilberta Keenlyside', '709-536-9169', '2/6/2022', 23);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Barbara Edgeson', '602-237-2018', '12/14/2022', 22);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Crin Prevost', '905-907-8961', '8/8/2022', 35);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Alexandr O''Shesnan', '296-387-5854', '5/4/2023', 50);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Hadley Drivers', '262-173-0239', '9/7/2018', 39);
+insert into adopter (name, phonenumber, adoptiondate, petid) values ('Ripley Donegan', '332-793-3879', '11/1/2023', 49);

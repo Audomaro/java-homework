@@ -5,24 +5,25 @@ import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
 import org.adoption.services.AdopterService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class AdopterControllerTest {
+
+@WebMvcTest(AdopterController.class)
+class MVCAdopterControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -69,9 +70,9 @@ class AdopterControllerTest {
     @Test
     void addAdopter() throws Exception {
         Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
-        adopter.setId(1);
         String jsonAdopter = mapper.writeValueAsString(adopter);
 
+        Mockito.when(adopterService.findByID(1)).thenReturn(adopter);
         Mockito.when(adopterService.addAdopter(adopter)).thenReturn(adopter);
 
         this.mockMvc.perform(
@@ -86,10 +87,12 @@ class AdopterControllerTest {
     @Test
     void updateStudent() throws Exception {
         Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        adopter.setId(1);
 
         String jsonAdopter = mapper.writeValueAsString(adopter);
 
-        Mockito.when(adopterService.updateAdopter(adopter)).thenReturn(true);
+//        Mockito.when(adopterService.findByID(1)).thenReturn(adopter);
+//        Mockito.when(adopterService.updateAdopter(adopter)).thenReturn(true);
 
         this.mockMvc.perform(
                         put("/adopter")
@@ -98,10 +101,14 @@ class AdopterControllerTest {
                 )
                 .andExpect(status().isNoContent())
                 .andDo(print());
+
+//        Mockito.verify(adopterService).findByID(1);
+//        Mockito.verify(adopterService).updateAdopter(adopter);
     }
 
     @Test
     void deleteStudent() throws Exception {
+        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
 
         Mockito.when(adopterService.removeAdopter(1)).thenReturn(true);
 

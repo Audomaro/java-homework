@@ -29,7 +29,7 @@ public class AdopterController {
         Adopter adopter = adopterService.findByID(id);
 
         if (adopter == null) {
-            return ResponseEntity.status(HttpStatus.OK).body(STR."No adopter with id: \{id}");
+            return ResponseEntity.status(HttpStatus.FOUND).body(STR."No adopter with id: \{id}");
         }
 
         return ResponseEntity.ok(adopter);
@@ -49,7 +49,7 @@ public class AdopterController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateStudent(@RequestBody Adopter adopter) {
+    public ResponseEntity<?> updateAdopter(@RequestBody Adopter adopter) {
         boolean result = adopterService.updateAdopter(adopter);
 
         if(!result) {
@@ -61,7 +61,7 @@ public class AdopterController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable int id) {
+    public ResponseEntity<?> deleteAdopter(@PathVariable int id) {
         boolean result = adopterService.removeAdopter(id);
 
         if(!result) {

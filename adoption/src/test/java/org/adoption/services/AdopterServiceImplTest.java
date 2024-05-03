@@ -87,7 +87,7 @@ class AdopterServiceImplTest {
 
         Mockito.when(adopterDAO.findByID(1)).thenReturn(adopter);
 
-        Adopter result = adopterService.findByID(1);
+        Adopter result = adopterService.findByID(2);
         assertEquals(adopter, result);
 
         Mockito.verify(adopterDAO).findByID(1);
