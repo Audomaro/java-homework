@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface AdopterDAO {
-    Adopter insert(Adopter student);
+    Adopter insert(Adopter newAdopter);
 
     Adopter findByID(int id);
 
-    boolean update(Adopter updatedStudent);
+    boolean update(Adopter updateAdopter);
 
     boolean delete(int id);
 

@@ -23,9 +23,9 @@ public class InMemoryDAO implements AdopterDAO {
     }
 
     @Override
-    public Adopter insert(Adopter adopter) {
-        adopters.put(adopter.getId(), adopter);
-        return adopter;
+    public Adopter insert(Adopter newAdopter) {
+        adopters.put(newAdopter.getId(), newAdopter);
+        return newAdopter;
     }
 
     @Override
@@ -34,8 +34,8 @@ public class InMemoryDAO implements AdopterDAO {
     }
 
     @Override
-    public boolean update(Adopter updatedStudent) {
-        return adopters.replace(updatedStudent.getId(), updatedStudent) != null;
+    public boolean update(Adopter updateAdopter) {
+        return adopters.replace(updateAdopter.getId(), updateAdopter) != null;
     }
 
     @Override

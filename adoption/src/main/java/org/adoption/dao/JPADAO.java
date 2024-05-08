@@ -24,10 +24,10 @@ public class JPADAO implements AdopterDAO {
     }
 
     @Override
-    public Adopter insert(Adopter student) {
+    public Adopter insert(Adopter newAdopter) {
         //student.setId(nextId.getAndIncrement());
-        adopters.put(student.getId(), student);
-        return student;
+        adopters.put(newAdopter.getId(), newAdopter);
+        return newAdopter;
     }
 
     @Override
@@ -36,8 +36,8 @@ public class JPADAO implements AdopterDAO {
     }
 
     @Override
-    public boolean update(Adopter updatedStudent) {
-        return adopters.replace(updatedStudent.getId(), updatedStudent) != null;
+    public boolean update(Adopter updateAdopter) {
+        return adopters.replace(updateAdopter.getId(), updateAdopter) != null;
     }
 
     @Override
