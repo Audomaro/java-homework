@@ -1,7 +1,9 @@
 package org.adoption;
 
 import org.adoption.domain.Adopter;
+import org.adoption.domain.BreedType;
 import org.adoption.domain.Pet;
+import org.adoption.domain.PetType;
 import org.adoption.services.AdopterService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,7 @@ class AdoptionApplicationTests {
 				"Celia A",
 				"123-456-7890",
 				LocalDate.of(2018,4,4),
-				new Pet(1,"Michi", Pet.PetType.CAT, Pet.BreedType.British_Shorthair)
+				new Pet(1, "Michi", PetType.CAT, BreedType.British_Shorthair)
 		));
 
 		adopterService.addAdopter(new Adopter(
@@ -42,7 +44,7 @@ class AdoptionApplicationTests {
 				"Celia B",
 				"124-456-7890",
 				LocalDate.of(2021,3,4),
-				new Pet(1,"Michi", Pet.PetType.TURTLE, Pet.BreedType.British_Shorthair)
+				new Pet(1,"Michi", PetType.TURTLE, BreedType.British_Shorthair)
 		));
 
 		adopterService.addAdopter(new Adopter(
@@ -50,20 +52,20 @@ class AdoptionApplicationTests {
 				"Mary / ADOPTER RANDOM ID",
 				"223-456-7890",
 				LocalDate.of(2024,1,1),
-				new Pet(2,"Bob", Pet.PetType.DOG, Pet.BreedType.Buldog)
+				new Pet(2,"Bob", PetType.DOG, BreedType.Buldog)
 		));
 
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.CAT)));
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.TURTLE)));
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.DOG)));
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.CAT)));
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.TURTLE)));
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.DOG)));
+		adopterService.addAdopter(new Adopter(new Pet(PetType.CAT)));
+		adopterService.addAdopter(new Adopter(new Pet(PetType.TURTLE)));
+		adopterService.addAdopter(new Adopter(new Pet(PetType.DOG)));
+		adopterService.addAdopter(new Adopter(new Pet(PetType.CAT)));
+		adopterService.addAdopter(new Adopter(new Pet(PetType.TURTLE)));
+		adopterService.addAdopter(new Adopter(new Pet(PetType.DOG)));
 	}
 
 	@Test
 	public void testAddAdopter() {
-		Adopter alice = new Adopter("NEW ALICE", "123-234-456", LocalDate.of(2020, 5, 10), new Pet(Pet.PetType.DOG));
+		Adopter alice = new Adopter(0,"NEW ALICE", "123-234-456", LocalDate.of(2020, 5, 10), new Pet(PetType.DOG));
 		adopterService.addAdopter(alice);
 		List<Adopter> allAdopters = adopterService.findAll();
 		assertTrue(allAdopters.contains(alice));
@@ -79,7 +81,7 @@ class AdoptionApplicationTests {
 	@Test
 	public void testUpdateAdopter() {
 		Adopter old = adopterService.findByID(1);
-		old.setPet(new Pet(Pet.PetType.CAT));
+		old.setPet(new Pet(PetType.CAT));
 
 		boolean updated = adopterService.updateAdopter(old);
 		assertTrue(updated);
@@ -100,7 +102,7 @@ class AdoptionApplicationTests {
 	@Test
 	public void testFindByID() {
 		//AdopterServiceImpl adopterService = new AdopterServiceImpl();
-		Adopter alice = new Adopter("Alice", "654-65651-3515", LocalDate.of(2023, 5, 10), new Pet(Pet.PetType.CAT));
+		Adopter alice = new Adopter(0, "Alice", "654-65651-3515", LocalDate.of(2023, 5, 10), new Pet(PetType.CAT));
 		adopterService.addAdopter(alice);
 
 		Adopter foundAdopter = adopterService.findByID(alice.getId());

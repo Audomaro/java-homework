@@ -31,9 +31,9 @@ class MyRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		System.out.println("run from ***CommandLineRunner**");
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.CAT)));
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.DOG)));
-		adopterService.addAdopter(new Adopter(new Pet(Pet.PetType.TURTLE)));
+		adopterService.addAdopter(new Adopter(new Pet()));
+		adopterService.addAdopter(new Adopter(new Pet()));
+		adopterService.addAdopter(new Adopter(new Pet()));
 
 		System.out.println("ORDER BY PhoneNumber");
 		Comparator<Adopter> orderBy = Comparator.comparing(Adopter::getPhoneNumber);

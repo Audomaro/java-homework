@@ -1,7 +1,9 @@
 package org.adoption.db;
 
 import org.adoption.domain.Adopter;
+import org.adoption.domain.BreedType;
 import org.adoption.domain.Pet;
+import org.adoption.domain.PetType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -24,10 +26,10 @@ public abstract class JdbcAdoption {
             String name = resultSet.getString("pet_name");
 
             int typeValue = resultSet.getInt("pet_type");
-            Pet.PetType type = Pet.PetType.values()[typeValue];
+            PetType type = PetType.values()[typeValue];
 
             int breedValue = resultSet.getInt("pet_breed");
-            Pet.BreedType breed = Pet.BreedType.values()[breedValue];
+            BreedType breed = BreedType.values()[breedValue];
 
             Pet pet = new Pet();
             pet.setPetId(petid);
@@ -49,6 +51,27 @@ public abstract class JdbcAdoption {
             adopter.setAdoptionDate(adoptionDate);
 
             return adopter;
+        };
+    }
+
+    protected RowMapper<Pet> getPetMapper() {
+        return  (resultSet, _) -> {
+            int petid = resultSet.getInt("pet_id");
+            String name = resultSet.getString("pet_name");
+
+            int typeValue = resultSet.getInt("pet_type");
+            PetType type = PetType.values()[typeValue];
+
+            int breedValue = resultSet.getInt("pet_breed");
+            BreedType breed = BreedType.values()[breedValue];
+
+            Pet pet = new Pet();
+            pet.setPetId(petid);
+            pet.setName(name);
+            pet.setType(type);
+            pet.setBreed(breed);
+
+            return pet;
         };
     }
 }
