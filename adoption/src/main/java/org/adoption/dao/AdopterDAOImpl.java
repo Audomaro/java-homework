@@ -48,8 +48,8 @@ public class AdopterDAOImpl extends JdbcAdoption implements AdopterDAO {
         getTemplate().update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"petid"});
             ps.setString(1, pet.getName());
-            ps.setInt(2, pet.getType().ordinal());
-            ps.setInt(3, pet.getBreed().ordinal());
+            ps.setInt(2, pet.getType().getValue());
+            ps.setInt(3, pet.getBreed().getValue());
             return ps;
         }, keyHolder);
 
@@ -78,7 +78,7 @@ public class AdopterDAOImpl extends JdbcAdoption implements AdopterDAO {
         """;
 
         try {
-            return getTemplate().queryForObject(sql, getAdopterMapper(), id);
+            return getTemplate().queryForObject(sql, getAdopterMapper(true), id);
         } catch (DataAccessException e) {
             return null;
         }
@@ -115,26 +115,35 @@ public class AdopterDAOImpl extends JdbcAdoption implements AdopterDAO {
         }
     }
 
-
     @Override
     public List<Adopter> findAll() {
+//        String sql = """
+//                SELECT
+//                    a.id AS adopter_id,
+//                    a.name AS adopter_name,
+//                    a.phonenumber AS phone_number,
+//                    a.adoptiondate,
+//                    p.petid AS pet_id,
+//                    p.name AS pet_name,
+//                    p.type AS pet_type,
+//                    p.breed AS pet_breed
+//                FROM adopter AS a
+//                JOIN pet p ON a.petid = p.petid
+//                ORDER BY a.id
+//        """;
         String sql = """
                 SELECT
                     a.id AS adopter_id,
                     a.name AS adopter_name,
                     a.phonenumber AS phone_number,
                     a.adoptiondate,
-                    p.petid AS pet_id,
-                    p.name AS pet_name,
-                    p.type AS pet_type,
-                    p.breed AS pet_breed
+                    a.petid AS pet_id
                 FROM adopter AS a
-                JOIN pet p ON a.petid = p.petid
                 ORDER BY a.id
         """;
 
         try {
-            return getTemplate().query(sql, getAdopterMapper());
+            return getTemplate().query(sql, getAdopterMapper(false));
         } catch (DataAccessException e) {
             return List.of();
         }
@@ -161,7 +170,7 @@ public class AdopterDAOImpl extends JdbcAdoption implements AdopterDAO {
         String like = "%" + name + "%";
 
         try {
-            return getTemplate().query(sql, ps -> ps.setString(1, like), getAdopterMapper());
+            return getTemplate().query(sql, ps -> ps.setString(1, like), getAdopterMapper(true));
         } catch (DataAccessException e) {
             return List.of();
         }
@@ -185,7 +194,7 @@ public class AdopterDAOImpl extends JdbcAdoption implements AdopterDAO {
         """;
 
         try {
-            return getTemplate().query(sql, getAdopterMapper());
+            return getTemplate().query(sql, getAdopterMapper(true));
         } catch (DataAccessException e) {
             return List.of();
         }

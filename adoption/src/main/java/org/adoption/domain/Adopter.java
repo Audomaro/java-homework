@@ -1,7 +1,9 @@
 package org.adoption.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Random;
@@ -9,6 +11,8 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@Builder
+@JsonSerialize
 public class Adopter {
 
     private int id;

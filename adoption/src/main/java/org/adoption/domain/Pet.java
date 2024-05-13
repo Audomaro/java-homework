@@ -1,11 +1,13 @@
 package org.adoption.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@JsonSerialize
 public class Pet {
     private int petId;
     private String name;

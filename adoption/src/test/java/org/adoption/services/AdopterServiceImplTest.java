@@ -3,6 +3,7 @@ package org.adoption.services;
 import org.adoption.dao.AdopterDAO;
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
+import org.adoption.domain.PetType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +29,7 @@ class AdopterServiceImplTest {
 
     @Test
     void addAdopter() {
-        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        Adopter adopter = new Adopter(new Pet(PetType.CAT));
 
         Mockito.when(adopterDAO.insert(adopter)).thenReturn(adopter);
 
@@ -39,7 +40,7 @@ class AdopterServiceImplTest {
 
     @Test
     void removeAdopter() {
-        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        Adopter adopter = new Adopter(new Pet(PetType.CAT));
         adopter.setId(1);
 
         Mockito.when(adopterDAO.delete(1)).thenReturn(true);
@@ -52,7 +53,7 @@ class AdopterServiceImplTest {
 
     @Test
     void updateAdopter() {
-        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        Adopter adopter = new Adopter(new Pet(PetType.CAT));
         adopter.setId(1);
 
         Mockito.when(adopterDAO.update(adopter)).thenReturn(true);
@@ -66,9 +67,9 @@ class AdopterServiceImplTest {
     @Test
     void findAll() {
         List<Adopter> adopters = List.of(
-                new Adopter(new Pet(Pet.PetType.CAT)),
-                new Adopter(new Pet(Pet.PetType.TURTLE)),
-                new Adopter(new Pet(Pet.PetType.DOG))
+                new Adopter(new Pet(PetType.CAT)),
+                new Adopter(new Pet(PetType.TURTLE)),
+                new Adopter(new Pet(PetType.DOG))
         );
 
         Mockito.when(adopterDAO.findAll()).thenReturn(adopters);
@@ -82,12 +83,12 @@ class AdopterServiceImplTest {
 
     @Test
     void findByID() {
-        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        Adopter adopter = new Adopter(new Pet(PetType.CAT));
         adopter.setId(1);
 
         Mockito.when(adopterDAO.findByID(1)).thenReturn(adopter);
 
-        Adopter result = adopterService.findByID(2);
+        Adopter result = adopterService.findByID(1);
         assertEquals(adopter, result);
 
         Mockito.verify(adopterDAO).findByID(1);
@@ -97,9 +98,9 @@ class AdopterServiceImplTest {
     void findByName() {
 
         List<Adopter> adopters = List.of(
-                new Adopter("John A", "", LocalDate.now(),new Pet(Pet.PetType.DOG)),
-                new Adopter("John B", "", LocalDate.now(),new Pet(Pet.PetType.DOG)),
-                new Adopter("John C", "", LocalDate.now(),new Pet(Pet.PetType.DOG))
+                Adopter.builder().name("Jonh A").build(),
+                Adopter.builder().name("Jonh B").build(),
+                Adopter.builder().name("Jonh C").build()
         );
 
         Mockito.when(adopterDAO.findByName("John")).thenReturn(adopters);
@@ -114,9 +115,9 @@ class AdopterServiceImplTest {
     void sortByAdoptionDate() {
         LocalDate adoptionDate = LocalDate.now() ;
         List<Adopter> adopters = List.of(
-                new Adopter("John A", "", adoptionDate,new Pet(Pet.PetType.DOG)),
-                new Adopter("John B", "", adoptionDate,new Pet(Pet.PetType.DOG)),
-                new Adopter("John C", "", adoptionDate,new Pet(Pet.PetType.DOG))
+                Adopter.builder().adoptionDate(adoptionDate).build(),
+                Adopter.builder().adoptionDate(adoptionDate).build(),
+                Adopter.builder().adoptionDate(adoptionDate).build()
         );
 
         Mockito.when(adopterDAO.sortByAdoptionDate()).thenReturn(adopters);
@@ -132,12 +133,12 @@ class AdopterServiceImplTest {
     void findBy() {
         LocalDate adoptionDate = LocalDate.now() ;
         List<Adopter> adopters = List.of(
-                new Adopter("John A", "", adoptionDate,new Pet(Pet.PetType.DOG)),
-                new Adopter("John B", "", adoptionDate,new Pet(Pet.PetType.DOG)),
-                new Adopter("John C", "", adoptionDate,new Pet(Pet.PetType.DOG))
+                Adopter.builder().name("Lily A").build(),
+                Adopter.builder().name("Lilu B").build(),
+                Adopter.builder().name("Licy C").build()
         );
 
-        Predicate<Adopter> where = adopter -> adopter.getName().startsWith("Celi");
+        Predicate<Adopter> where = adopter -> adopter.getName().startsWith("Li");
 
         Mockito.when(adopterDAO.findBy(where)).thenReturn(adopters);
 
@@ -150,11 +151,10 @@ class AdopterServiceImplTest {
 
     @Test
     void orderBy() {
-        LocalDate adoptionDate = LocalDate.now() ;
         List<Adopter> adopters = List.of(
-                new Adopter("John A", "", adoptionDate,new Pet(Pet.PetType.DOG)),
-                new Adopter("John B", "", adoptionDate,new Pet(Pet.PetType.DOG)),
-                new Adopter("John C", "", adoptionDate,new Pet(Pet.PetType.DOG))
+                Adopter.builder().build(),
+                Adopter.builder().build(),
+                Adopter.builder().build()
         );
 
         Comparator<Adopter> orderBy = Comparator.comparing(Adopter::getId);

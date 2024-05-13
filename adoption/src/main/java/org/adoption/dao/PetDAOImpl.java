@@ -16,7 +16,7 @@ public class PetDAOImpl extends JdbcAdoption implements PetDAO {
                     sql,
                     newPet.getName(),
                     newPet.getType().getValue(),
-                    newPet.getBreed().ordinal()
+                    newPet.getBreed().getValue()
             );
 
             return newPet;
@@ -51,8 +51,8 @@ public class PetDAOImpl extends JdbcAdoption implements PetDAO {
         try {
             int rowsUpdated = getTemplate().update(
                     sql, updatePet.getName(),
-                    updatePet.getType(),
-                    updatePet.getBreed(),
+                    updatePet.getType().getValue(),
+                    updatePet.getBreed().getValue(),
                     updatePet.getPetId()
             );
 

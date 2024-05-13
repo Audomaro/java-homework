@@ -2,6 +2,7 @@ package org.adoption.controllers;
 
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
+import org.adoption.domain.PetType;
 import org.adoption.services.AdopterService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,9 +32,9 @@ class MockitoAdopterControllerTest {
     @Test
     public void getAll() {
         List<Adopter> adopters = List.of(
-                new Adopter(new Pet(Pet.PetType.CAT)),
-                new Adopter(new Pet(Pet.PetType.TURTLE)),
-                new Adopter(new Pet(Pet.PetType.DOG))
+                new Adopter(new Pet(PetType.CAT)),
+                new Adopter(new Pet(PetType.TURTLE)),
+                new Adopter(new Pet(PetType.DOG))
         );
 
         Mockito.when(service.findAll()).thenReturn(adopters);
@@ -48,7 +49,7 @@ class MockitoAdopterControllerTest {
 
     @Test
     public void getById() {
-        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        Adopter adopter = new Adopter(new Pet(PetType.CAT));
         adopter.setId(1);
 
         Mockito.when(service.findByID(adopter.getId())).thenReturn(adopter);
@@ -62,7 +63,7 @@ class MockitoAdopterControllerTest {
 
     @Test
     public void addAdopter() {
-        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        Adopter adopter = new Adopter(new Pet(PetType.CAT));
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
@@ -77,7 +78,7 @@ class MockitoAdopterControllerTest {
 
     @Test
     public void updateAdopter() {
-        Adopter adopter = new Adopter(new Pet(Pet.PetType.CAT));
+        Adopter adopter = new Adopter(new Pet(PetType.CAT));
         adopter.setId(1);
 
         Mockito.when(service.updateAdopter(adopter)).thenReturn(true);

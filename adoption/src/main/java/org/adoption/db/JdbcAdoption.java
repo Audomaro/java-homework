@@ -19,23 +19,27 @@ public abstract class JdbcAdoption {
         return new JdbcTemplate(dataSource);
     }
 
-    protected RowMapper<Adopter> getAdopterMapper() {
+    protected RowMapper<Adopter> getAdopterMapper(boolean withPet ) {
         return  (resultSet, _) -> {
-            // PET ROW MAPPER
-            int petid = resultSet.getInt("pet_id");
-            String name = resultSet.getString("pet_name");
-
-            int typeValue = resultSet.getInt("pet_type");
-            PetType type = PetType.values()[typeValue];
-
-            int breedValue = resultSet.getInt("pet_breed");
-            BreedType breed = BreedType.values()[breedValue];
-
             Pet pet = new Pet();
-            pet.setPetId(petid);
-            pet.setName(name);
-            pet.setType(type);
-            pet.setBreed(breed);
+
+            if (withPet) {
+                // PET ROW MAPPER
+                int petid = resultSet.getInt("pet_id");
+                String name = resultSet.getString("pet_name");
+
+                int typeValue = resultSet.getInt("pet_type");
+                PetType type = PetType.getByValue(typeValue);
+
+                int breedValue = resultSet.getInt("pet_breed");
+                BreedType breed = BreedType.getByValue(breedValue);
+
+
+                pet.setPetId(petid);
+                pet.setName(name);
+                pet.setType(type);
+                pet.setBreed(breed);
+            }
 
             // ADOPTER ROW MAPPER
             int adopterId = resultSet.getInt("adopter_id");
@@ -47,7 +51,7 @@ public abstract class JdbcAdoption {
             adopter.setId(adopterId);
             adopter.setName(adopterName);
             adopter.setPhoneNumber(phoneNumber);
-            adopter.setPet(pet);
+            adopter.setPet(withPet ? pet : null);
             adopter.setAdoptionDate(adoptionDate);
 
             return adopter;
@@ -60,10 +64,10 @@ public abstract class JdbcAdoption {
             String name = resultSet.getString("pet_name");
 
             int typeValue = resultSet.getInt("pet_type");
-            PetType type = PetType.values()[typeValue];
+            PetType type = PetType.getByValue(typeValue);
 
             int breedValue = resultSet.getInt("pet_breed");
-            BreedType breed = BreedType.values()[breedValue];
+            BreedType breed = BreedType.getByValue(breedValue);
 
             Pet pet = new Pet();
             pet.setPetId(petid);
