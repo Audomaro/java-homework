@@ -2,7 +2,7 @@ package org.adoption.controllers;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.adoption.domain.Adopter;
-import org.adoption.services.AdopterService;
+import org.adoption.services.AdopterServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/adopter")
 public class AdopterController {
-    private final AdopterService adopterService;
+    private final AdopterServiceImpl adopterService;
 
-    public AdopterController(AdopterService adopterService) {
+    public AdopterController(AdopterServiceImpl adopterService) {
         this.adopterService = adopterService;
     }
 

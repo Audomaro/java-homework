@@ -1,5 +1,7 @@
 package org.adoption.controllers;
 
+import org.adoption.domain.Adopter;
+import org.adoption.domain.Pet;
 import org.adoption.domain.PetType;
 import org.adoption.services.AdopterService;
 import org.junit.jupiter.api.Test;
@@ -25,7 +27,7 @@ class MockitoAdopterControllerTest {
     private AdopterService service;
 
     @InjectMocks
-    private PetController controller;
+    private AdopterController controller;
 
     @Test
     public void getAll() {
@@ -35,13 +37,13 @@ class MockitoAdopterControllerTest {
                 new Adopter(new Pet(PetType.DOG))
         );
 
-        Mockito.when(service.findAllAdopters()).thenReturn(adopters);
+        Mockito.when(service.findAll()).thenReturn(adopters);
 
-        List<Adopter> result = controller.getPets();
+        List<Adopter> result = controller.getAdopters();
 
         assertEquals(adopters, result);
 
-        Mockito.verify(service).findAllAdopters();
+        Mockito.verify(service).findAll();
     }
 
 
@@ -67,7 +69,7 @@ class MockitoAdopterControllerTest {
 
         Mockito.when(service.addAdopter(adopter)).thenReturn(adopter);
 
-        ResponseEntity<?> response = controller.addPet(adopter);
+        ResponseEntity<?> response = controller.addAdopter(adopter);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
@@ -81,7 +83,7 @@ class MockitoAdopterControllerTest {
 
         Mockito.when(service.updateAdopter(adopter)).thenReturn(true);
 
-        ResponseEntity<?> response = controller.updatePet(adopter);
+        ResponseEntity<?> response = controller.updateAdopter(adopter);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 
@@ -95,7 +97,7 @@ class MockitoAdopterControllerTest {
 
         Mockito.when(service.removeAdopter(1)).thenReturn(true);
 
-        ResponseEntity<?> response = controller.deletePet(1);
+        ResponseEntity<?> response = controller.deleteAdopter(1);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 

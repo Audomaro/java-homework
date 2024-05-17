@@ -1,7 +1,7 @@
 package org.adoption;
 
 import org.adoption.services.AdopterService;
-import org.adoption.services.PetService;
+import org.adoption.services.PetServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,11 +17,11 @@ public class AdoptionApplication {
 //@Component
 class MyRunner implements CommandLineRunner {
 	private final AdopterService adopterService;
-	private final PetService petService;
+	private final PetServiceImpl petServiceImpl;
 
-	public MyRunner(AdopterService adopterService, PetService petService) {
+	public MyRunner(AdopterService adopterService, PetServiceImpl petServiceImpl) {
 		this.adopterService = adopterService;
-		this.petService = petService;
+		this.petServiceImpl = petServiceImpl;
 	}
 
 	@Override

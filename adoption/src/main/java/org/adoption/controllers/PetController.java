@@ -2,7 +2,7 @@ package org.adoption.controllers;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.adoption.domain.Pet;
-import org.adoption.services.PetService;
+import org.adoption.services.PetServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,9 @@ import java.util.List;
 @RequestMapping("/pet")
 public class PetController {
 
-    private final PetService petService;
+    private final PetServiceImpl petService;
 
-    public PetController(PetService petService) {
+    public PetController(PetServiceImpl petService) {
         this.petService = petService;
     }
 
