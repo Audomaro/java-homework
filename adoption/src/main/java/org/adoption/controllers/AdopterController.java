@@ -1,5 +1,6 @@
 package org.adoption.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.adoption.domain.Adopter;
 import org.adoption.services.AdopterService;
 import org.springframework.http.HttpStatus;
@@ -20,54 +21,62 @@ public class AdopterController {
     }
 
     @GetMapping
-    public List<Adopter> getAdopters() {
-        return this.adopterService.findAll();
+    public ResponseEntity<List<Adopter>> getAdopters() {
+        List<Adopter> adopter = adopterService.findAllAdopters();
+        return ResponseEntity.ok(adopter);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getAdopter(@PathVariable int id) {
-        Adopter adopter = adopterService.findByID(id);
+    @GetMapping("/{adopterId}")
+    public ResponseEntity<Adopter> getAdopterById(@PathVariable int adopterId) {
+        Adopter adopter = adopterService.findAdopterById(adopterId);
+        return ResponseEntity.ok(adopter);
+    }
 
-        if (adopter == null) {
-            return ResponseEntity.status(HttpStatus.FOUND).body("No adopter with id: " + id);
-        }
+    @GetMapping("/by-name/{name}")
+    public ResponseEntity<List<Adopter>> getByName(@PathVariable String name) {
+        List<Adopter> adopter = adopterService.findAdopterByName(name);
+        return ResponseEntity.ok(adopter);
+    }
 
+    @GetMapping("with-pets")
+    public ResponseEntity<List<Adopter>> getAdopterWithPets() {
+        List<Adopter> adopter = adopterService.findAdopterWithPets();
+        return ResponseEntity.ok(adopter);
+    }
+
+    @GetMapping("without-pets")
+    public ResponseEntity<List<Adopter>> getAdopterWithoutPets() {
+        List<Adopter> adopter = adopterService.findAdopterWithoutPets();
         return ResponseEntity.ok(adopter);
     }
 
     @PostMapping
-    public ResponseEntity<?> addAdopter(@RequestBody Adopter adopter) {
-            Adopter newAdopter = adopterService.addAdopter(adopter);
+    public ResponseEntity<Adopter> addAdopter(@RequestBody Adopter adopter) {
+        Adopter createdAdopter = adopterService.addAdopterWithPets(adopter);
 
         URI newResource = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(newAdopter.getId())
+                .buildAndExpand(createdAdopter.getId())
                 .toUri();
 
         return ResponseEntity.created(newResource).build();
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateAdopter(@RequestBody Adopter adopter) {
-        boolean result = adopterService.updateAdopter(adopter);
+    @PutMapping("/{adopterId}")
+    public ResponseEntity<Adopter> updateAdopter(@PathVariable Integer adopterId, @RequestBody Adopter adopter) {
+        Adopter updatedAdopter = adopterService.updateAdopter(adopterId, adopter);
+        return ResponseEntity.ok(updatedAdopter);
+    }
 
-        if(!result) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No adopter with id: " + adopter.getId());
-        }
-
+    @DeleteMapping("/{adopterId}")
+    public ResponseEntity<Void> deleteAdopter(@PathVariable Integer adopterId) {
+        adopterService.deleteAdopter(adopterId);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAdopter(@PathVariable int id) {
-        boolean result = adopterService.removeAdopter(id);
-
-        if(!result) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No adopter with id: " + id);
-        }
-
-        return ResponseEntity.noContent().build();
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

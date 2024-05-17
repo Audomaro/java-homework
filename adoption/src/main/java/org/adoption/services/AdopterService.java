@@ -1,29 +1,62 @@
 package org.adoption.services;
 
-import org.adoption.dao.AdopterDAO;
+import jakarta.persistence.EntityNotFoundException;
 import org.adoption.domain.Adopter;
+import org.adoption.repository.AdopterRepository;
+import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 
+@Service
+public class AdopterService {
 
-public interface AdopterService {
-    Adopter addAdopter(Adopter adopter);
+    private final AdopterRepository adopterRepository;
 
-    boolean removeAdopter(int id);
+    public AdopterService(AdopterRepository adopterRepository) {
+        this.adopterRepository = adopterRepository;
+    }
 
-    boolean updateAdopter(Adopter newAdopter);
+    public List<Adopter> findAllAdopters() {
+        return this.adopterRepository.findAll();
+    }
 
-    List<Adopter> findAll();
+    public Adopter findAdopterById(int adopterId) {
+        return adopterRepository.findById(adopterId)
+                .orElseThrow(() -> new EntityNotFoundException("Adopter not found with id: " + adopterId));
+    }
 
-    Adopter findByID(int id);
+    public List<Adopter> findAdopterByName(String name) {
+        return adopterRepository.findAdopterByName(name);
+    }
 
-    List<Adopter> findByName(String name);
+    public List<Adopter> findAdopterWithoutPets() {
+        return adopterRepository.findAdopterWithoutPets();
+    }
 
-    List<Adopter> sortByAdoptionDate();
+    public List<Adopter> findAdopterWithPets() {
+        return this.adopterRepository.findAdopterWithPets();
+    }
 
-    List<Adopter> findBy(Predicate<Adopter> criteria);
+    public Adopter addAdopterWithPets(Adopter newAdopter) {
+        newAdopter.getPets().forEach( pet -> pet.setAdopter(newAdopter));
+        return adopterRepository.save(newAdopter);
+    }
 
-    List<Adopter> orderBy(Comparator<Adopter> comparator);
+    public Adopter updateAdopter(Integer adopterId, Adopter updatedAdopter) {
+        Adopter adopter = adopterRepository.findById(adopterId)
+                .orElseThrow(() -> new EntityNotFoundException("Adopter not found with id: " + adopterId));
+
+            adopter.setName(updatedAdopter.getName());
+            adopter.setPhoneNumber(updatedAdopter.getPhoneNumber());
+
+            return adopterRepository.save(adopter);
+    }
+
+    public void deleteAdopter(Integer adopterId) {
+        Adopter adopter = adopterRepository.findById(adopterId)
+                .orElseThrow(() -> new EntityNotFoundException("Adopter not found with id: " + adopterId));
+
+        adopterRepository.delete(adopter);
+    }
+
 }

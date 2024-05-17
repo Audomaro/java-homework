@@ -1,8 +1,5 @@
 package org.adoption.services;
 
-import org.adoption.dao.AdopterDAO;
-import org.adoption.domain.Adopter;
-import org.adoption.domain.Pet;
 import org.adoption.domain.PetType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,7 +62,7 @@ class AdopterServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void findAllAdopters() {
         List<Adopter> adopters = List.of(
                 new Adopter(new Pet(PetType.CAT)),
                 new Adopter(new Pet(PetType.TURTLE)),
@@ -82,7 +79,7 @@ class AdopterServiceImplTest {
     }
 
     @Test
-    void findByID() {
+    void findAdopterByID() {
         Adopter adopter = new Adopter(new Pet(PetType.CAT));
         adopter.setId(1);
 
@@ -95,7 +92,7 @@ class AdopterServiceImplTest {
     }
 
     @Test
-    void findByName() {
+    void findAdopterByName() {
 
         List<Adopter> adopters = List.of(
                 Adopter.builder().name("Jonh A").build(),
