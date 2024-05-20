@@ -3,10 +3,10 @@ package org.adoption.services;
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
 import org.adoption.repository.AdopterRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +26,11 @@ class AdopterServiceImplJPATest {
 
     @BeforeEach
     void setup() {
+        entityManager.getEntityManager().createNativeQuery("DELETE FROM t_adopter").executeUpdate();
+        entityManager.getEntityManager().createNativeQuery("DELETE FROM t_pet").executeUpdate();
+        entityManager.getEntityManager().createNativeQuery("ALTER TABLE t_adopter ALTER COLUMN adopter_id RESTART WITH 1").executeUpdate();
+        entityManager.getEntityManager().createNativeQuery("ALTER TABLE t_pet ALTER COLUMN pet_id RESTART WITH 1").executeUpdate();
+
         Adopter adopter1 = new Adopter();
         adopter1.setName("Isiah Deckow");
 
@@ -33,8 +38,8 @@ class AdopterServiceImplJPATest {
         pet1.setName("Rover");
         pet1.setAdopter(adopter1);
         adopter1.getPets().add(pet1);
-        entityManager.persist(adopter1);
 
+        entityManager.persist(adopter1);
         entityManager.persist(new Adopter());
         entityManager.persist(new Adopter());
         entityManager.persist(new Adopter());
@@ -50,10 +55,10 @@ class AdopterServiceImplJPATest {
 
     @Test
     void findAdopterById() {
-        Optional<Adopter> result = adopterRepository.findById(1);
-        assertNotNull(result);
-        assertTrue(result.isPresent());
-        assertEquals("Isiah Deckow", result.get().getName());
+        Optional<Adopter> adopter = adopterRepository.findById(1);
+        assertNotNull(adopter);
+        assertTrue(adopter.isPresent());
+        assertEquals("Isiah Deckow", adopter.get().getName());
     }
 
     @Test

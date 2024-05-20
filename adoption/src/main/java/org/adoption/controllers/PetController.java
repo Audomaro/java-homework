@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/pet")
@@ -28,9 +29,15 @@ public class PetController {
     }
 
     @GetMapping("/{petId}")
-    public ResponseEntity<Pet> getPetById(@PathVariable int petId) {
-        Pet adopter = petService.getPetById(petId);
-        return ResponseEntity.ok(adopter);
+    public ResponseEntity<?> getPetById(@PathVariable int petId) {
+        Optional<Pet> adopter = petService.getPetById(petId);
+
+        if (adopter.isPresent())
+        {
+            return ResponseEntity.ok(adopter);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pet not found");
     }
 
     @PostMapping

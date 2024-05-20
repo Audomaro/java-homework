@@ -1,11 +1,11 @@
 package org.adoption.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.adoption.domain.Pet;
 import org.adoption.repository.PetRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PetServiceImpl implements PetService {
@@ -27,9 +27,23 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Pet getPetById(Integer petId) {
-        return petRepository.findById(petId)
-                .orElseThrow(() -> new EntityNotFoundException("Pet not found with id: " + petId));
+    public Optional<Pet> getPetById(Integer petId) {
+        return petRepository.findById(petId);
+    }
+
+    @Override
+    public List<Pet> getPetByName(String name) {
+        return petRepository.findByNameIgnoreCaseContaining(name);
+    }
+
+    @Override
+    public List<Pet> getPetsWithAdopter() {
+        return petRepository.findByAdopterIsNotNull();
+    }
+
+    @Override
+    public List<Pet> getPetsWithoutAdopter() {
+        return petRepository.findByAdopterIsNull();
     }
 
     @Override
@@ -38,10 +52,8 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public void deletePet(Integer petId) {
-        Pet pet = petRepository.findById(petId)
-                .orElseThrow(() -> new EntityNotFoundException("Pet not found with id: " + petId));
-
-        petRepository.delete(pet);
+    public boolean deletePet(Integer petId) {
+        petRepository.deleteById(petId);
+        return true;
     }
 }

@@ -1,6 +1,5 @@
 package org.adoption.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.adoption.domain.Adopter;
 import org.adoption.repository.AdopterRepository;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,8 @@ public class AdopterServiceImpl implements AdopterService {
     }
 
     @Override
-    public Adopter findAdopterById(int adopterId) {
-        return adopterRepository.findById(adopterId)
-                .orElseThrow(() -> new EntityNotFoundException("Adopter not found with id: " + adopterId));
+    public Optional<Adopter> findAdopterById(int adopterId) {
+        return adopterRepository.findById(adopterId);
     }
 
     @Override

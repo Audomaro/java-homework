@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/adopter")
@@ -27,9 +28,13 @@ public class AdopterController {
     }
 
     @GetMapping("/{adopterId}")
-    public ResponseEntity<Adopter> getAdopterById(@PathVariable int adopterId) {
-        Adopter adopter = adopterService.findAdopterById(adopterId);
-        return ResponseEntity.ok(adopter);
+    public ResponseEntity<?> getAdopterById(@PathVariable int adopterId) {
+        Optional<Adopter> adopter = adopterService.findAdopterById(adopterId);
+
+        if(adopter.isPresent()){
+            return ResponseEntity.ok(adopter);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Adopter not found");
     }
 
     @GetMapping("/by-name/{name}")

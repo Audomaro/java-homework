@@ -57,6 +57,7 @@ class AdopterServiceImplTest {
     @Test
     void addAdopterWithPets() {
         Adopter newAdopter = new Adopter();
+        newAdopter.setName("TEST 2024-05-20");
 
         List<Pet> pets = List.of(
                 new Pet(),
