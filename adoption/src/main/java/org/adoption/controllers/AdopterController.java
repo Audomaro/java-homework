@@ -63,9 +63,9 @@ public class AdopterController {
         return ResponseEntity.created(newResource).build();
     }
 
-    @PutMapping("/{adopterId}")
-    public ResponseEntity<Adopter> updateAdopter(@PathVariable Integer adopterId, @RequestBody Adopter adopter) {
-        Adopter updatedAdopter = adopterService.updateAdopter(adopterId, adopter);
+    @PutMapping
+    public ResponseEntity<Adopter> updateAdopter(@RequestBody Adopter adopter) {
+        Adopter updatedAdopter = adopterService.updateAdopter(adopter);
         return ResponseEntity.ok(updatedAdopter);
     }
 

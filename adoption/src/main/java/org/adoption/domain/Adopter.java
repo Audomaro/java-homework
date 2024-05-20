@@ -2,8 +2,6 @@ package org.adoption.domain;
 
 import com.github.javafaker.Faker;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.HashSet;
