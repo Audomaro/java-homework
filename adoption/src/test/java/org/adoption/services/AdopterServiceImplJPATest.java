@@ -32,13 +32,14 @@ class AdopterServiceImplJPATest {
         Pet pet1 = new Pet();
         pet1.setName("Rover");
         pet1.setAdopter(adopter1);
-
         adopter1.getPets().add(pet1);
-        adopterRepository.save(adopter1);
+        entityManager.persist(adopter1);
 
-        adopterRepository.save(new Adopter());
-        adopterRepository.save(new Adopter());
-        adopterRepository.save(new Adopter());
+        entityManager.persist(new Adopter());
+        entityManager.persist(new Adopter());
+        entityManager.persist(new Adopter());
+
+        entityManager.flush();
     }
 
     @Test
