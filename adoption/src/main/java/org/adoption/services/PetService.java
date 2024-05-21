@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PetService {
-    List<Pet> getAllPets();
+    List<Pet> findAllPets();
 
     Pet addPet(Pet pet);
 
     Optional<Pet> getPetById(Integer petId);
 
-    List<Pet> getPetByName(String name);
+    List<Pet> findPetsByName(String name);
 
-    List<Pet> getPetsWithAdopter();
+    List<Pet> findPetsWithAdopter();
 
-    List<Pet> getPetsWithoutAdopter();
+    List<Pet> findPetsWithoutAdopter();
 
     Pet updatePet(Pet updatePet);
 

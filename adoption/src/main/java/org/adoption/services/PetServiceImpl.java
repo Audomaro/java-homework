@@ -3,10 +3,12 @@ package org.adoption.services;
 import org.adoption.domain.Pet;
 import org.adoption.repository.PetRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class PetServiceImpl implements PetService {
 
@@ -17,7 +19,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<Pet> getAllPets() {
+    public List<Pet> findAllPets() {
         return petRepository.findAll();
     }
 
@@ -32,17 +34,17 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<Pet> getPetByName(String name) {
+    public List<Pet> findPetsByName(String name) {
         return petRepository.findByNameIgnoreCaseContaining(name);
     }
 
     @Override
-    public List<Pet> getPetsWithAdopter() {
+    public List<Pet> findPetsWithAdopter() {
         return petRepository.findByAdopterIsNotNull();
     }
 
     @Override
-    public List<Pet> getPetsWithoutAdopter() {
+    public List<Pet> findPetsWithoutAdopter() {
         return petRepository.findByAdopterIsNull();
     }
 

@@ -1,87 +1,184 @@
 package org.adoption.services;
 
-import jakarta.transaction.Transactional;
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
 import org.adoption.repository.AdopterRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@Transactional
+@ExtendWith(MockitoExtension.class)
 class AdopterServiceImplTest {
-    @Autowired
+    @Mock
     private AdopterRepository adopterRepository;
+
+    @InjectMocks
+    private AdopterServiceImpl adopterService;
 
     @Test
     void findAllAdopters() {
-        List<Adopter> result = adopterRepository.findAll();
+        List<Adopter> adopters = List.of(
+                new Adopter(),
+                new Adopter(),
+                new Adopter()
+        );
+
+        when(adopterRepository.findAll()).thenReturn(adopters);
+
+        List<Adopter> result = adopterService.findAllAdopters();
+
         assertNotNull(result);
+        assertEquals(adopters.size(),result.size());
+
+        verify(adopterRepository).findAll();
     }
 
     @Test
     void findAdopterById() {
-        Optional<Adopter> result = adopterRepository.findById(860);
-        assertNotNull(result);
+        Adopter adopter = new Adopter();
+        adopter.setId(1);
+
+        when(adopterRepository.findById(1)).thenReturn(Optional.of(adopter));
+
+        Optional<Adopter> result = adopterService.findAdopterById(adopter.getId());
+
         assertTrue(result.isPresent());
-        assertEquals("Isiah Deckow", result.get().getName());
+        assertEquals(adopter.getName(), result.get().getName());
+        verify(adopterRepository).findById(adopter.getId());
     }
 
     @Test
     void findAdopterByName() {
-        List<Adopter> adopters = adopterRepository.findAdopterByName("ck");
-        assertNotNull(adopters);
-        assertFalse(adopters.isEmpty());
+        String name = "Ru";
+
+        List<Adopter> adopters = List.of(
+                new Adopter(),
+                new Adopter(),
+                new Adopter()
+        );
+
+        when(adopterRepository.findAdopterByName(name)).thenReturn(adopters);
+
+        List<Adopter> result = adopterService.findAdopterByName(name);
+
+        assertNotNull(result);
+        assertEquals(adopters.size(),result.size());
+
+        verify(adopterRepository).findAdopterByName(name);
     }
 
     @Test
     void findAdopterWithoutPets() {
-        List<Adopter> result = adopterRepository.findAdopterWithoutPets();
+        List<Adopter> adopters = List.of(
+                new Adopter(),
+                new Adopter(),
+                new Adopter()
+        );
+
+        when(adopterRepository.findAdopterWithoutPets()).thenReturn(adopters);
+
+        List<Adopter> result = adopterService.findAdopterWithoutPets();
+
         assertNotNull(result);
-        assertFalse(result.isEmpty());
+        assertEquals(adopters.size(),result.size());
+        assertEquals(0, adopters.get(0).getPets().size());
+        assertEquals(0, adopters.get(1).getPets().size());
+        assertEquals(0, adopters.get(2).getPets().size());
+
+        verify(adopterRepository).findAdopterWithoutPets();
     }
 
     @Test
     void findAdopterWithPets() {
-        List<Adopter> result = adopterRepository.findAdopterWithPets();
+        List<Adopter> adopters = new ArrayList<>();
+
+        for (int i = 1; i <= 3;i++ ){
+            Adopter adopter = new Adopter();
+            adopter.setId(i);
+
+            for (int j = 1; j <= i; j ++) {
+                Pet pet = new Pet();
+                pet.setId(i*j);
+                pet.setAdopter(adopter);
+                adopter.getPets().add(pet);
+            }
+
+            adopters.add(adopter);
+        }
+
+        when(adopterRepository.findAdopterWithPets()).thenReturn(adopters);
+
+        List<Adopter> result = adopterService.findAdopterWithPets();
+
         assertNotNull(result);
-        assertFalse(result.isEmpty());
+        assertEquals(adopters.size(),result.size());
+        assertEquals(1, adopters.get(0).getPets().size());
+        assertEquals(2, adopters.get(1).getPets().size());
+        assertEquals(3, adopters.get(2).getPets().size());
+
+        verify(adopterRepository).findAdopterWithPets();
     }
 
     @Test
     void addAdopterWithPets() {
-        Adopter newAdopter = new Adopter();
-        newAdopter.setName("TEST 2024-05-20");
+        Adopter adopter = new Adopter();
+        adopter.setId(1);
 
-        List<Pet> pets = List.of(
-                new Pet(),
-                new Pet()
-        );
+        for (int j = 0; j < 3; j ++) {
+            Pet pet = new Pet();
+            pet.setId(j+1);
+            pet.setAdopter(adopter);
+            adopter.getPets().add(pet);
+        }
 
-        newAdopter.getPets().addAll(pets);
-        adopterRepository.save(newAdopter);
+        when(adopterRepository.save(any(Adopter.class))).thenReturn(adopter);
+
+        Adopter result = adopterService.addAdopterWithPets(adopter);
+
+        assertNotNull(result);
+        assertEquals(adopter.getName(), result.getName());
+        assertEquals(adopter.getPets().size(), result.getPets().size());
+
+        verify(adopterRepository).save(any(Adopter.class));
     }
 
     @Test
     void updateAdopter() {
         Adopter adopter = new Adopter();
-        adopter.setId(877);
-        adopter.setName("Isiah Deckow");
-        Adopter result = adopterRepository.save(adopter);
+        adopter.setId(100);
+        adopter.setName("Jex");
+
+        when(adopterRepository.save(any(Adopter.class))).thenReturn(adopter);
+
+        Adopter result = adopterService.updateAdopter(adopter);
+
         assertNotNull(result);
-        assertEquals("Isiah Deckow", result.getName());
+        assertEquals(result.getId(), adopter.getId());
+        assertEquals(result.getName(), adopter.getName());
+
+        verify(adopterRepository).save(any(Adopter.class));
+
     }
 
     @Test
     void deleteAdopter() {
-        adopterRepository.deleteById(858);
-        Optional<Adopter> result = adopterRepository.findById(858);
-        assertTrue(result.isEmpty());
+        int adopterId = 500;
+
+        doNothing().when(adopterRepository).deleteById(adopterId);
+
+        boolean result = adopterService.deleteAdopter(adopterId);
+
+        assertTrue(result);
+
+        verify(adopterRepository).deleteById(adopterId);
     }
 }

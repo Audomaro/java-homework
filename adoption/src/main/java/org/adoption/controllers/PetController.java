@@ -23,8 +23,8 @@ public class PetController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pet>> getPets() {
-        List<Pet> adopter = petService.getAllPets();
+    public ResponseEntity<?> getPets() {
+        List<Pet> adopter = petService.findAllPets();
         return ResponseEntity.ok(adopter);
     }
 
@@ -40,8 +40,27 @@ public class PetController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pet not found");
     }
 
+    @GetMapping("/by-name/{name}")
+    public ResponseEntity<?> getPetsByName(@PathVariable String name) {
+        List<Pet> adopter = petService.findPetsByName(name);
+        return ResponseEntity.ok(adopter);
+    }
+
+    @GetMapping("/with-adopter")
+    public ResponseEntity<?> getPetsWithAdopter() {
+        List<Pet> adopter = petService.findPetsWithAdopter();
+        return ResponseEntity.ok(adopter);
+    }
+
+
+    @GetMapping("/without-adopter")
+    public ResponseEntity<?> getPetsWithoutAdopter() {
+        List<Pet> adopter = petService.findPetsWithoutAdopter();
+        return ResponseEntity.ok(adopter);
+    }
+
     @PostMapping
-    public ResponseEntity<Pet> addPet(@RequestBody Pet pet) {
+    public ResponseEntity<?> addPet(@RequestBody Pet pet) {
         Pet createdPet = petService.addPet(pet);
 
         URI newResource = ServletUriComponentsBuilder
@@ -54,13 +73,19 @@ public class PetController {
     }
 
     @PutMapping
-    public ResponseEntity<Pet> updatePet(@RequestBody Pet pet) {
-        Pet updatedAdopter = petService.updatePet(pet);
-        return ResponseEntity.ok(updatedAdopter);
+    public ResponseEntity<?> updatePet(@RequestBody Pet pet) {
+        Pet updatedPet = petService.updatePet(pet);
+
+        if (updatedPet == null ) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No pet with id: " + pet.getId());
+        }
+
+        return ResponseEntity.ok(updatedPet);
     }
 
     @DeleteMapping("/{petId}")
-    public ResponseEntity<Void> deletePet(@PathVariable Integer petId) {
+    public ResponseEntity<?> deletePet(@PathVariable Integer petId) {
         petService.deletePet(petId);
         return ResponseEntity.noContent().build();
     }

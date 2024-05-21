@@ -1,94 +1,166 @@
 package org.adoption.services;
 
-import jakarta.transaction.Transactional;
+import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
 import org.adoption.repository.PetRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@Transactional
+@ExtendWith(MockitoExtension.class)
 class PetServiceImplTest {
-    @Autowired
+    @Mock
     private PetRepository petRepository;
 
+    @InjectMocks
+    private PetServiceImpl petService;
+
     @Test
-    void getAllPets() {
-        List<Pet> result = petRepository.findAll();
+    void findAllPets() {
+        List<Pet> pets = List.of(
+                new Pet(),
+                new Pet(),
+                new Pet()
+        );
+
+        when(petRepository.findAll()).thenReturn(pets);
+
+        List<Pet> result = petService.findAllPets();
+
         assertNotNull(result);
-        assertFalse(result.isEmpty());
+        assertEquals(pets.size(),result.size());
+
+        verify(petRepository).findAll();
     }
 
     @Test
     void addPet() {
-        Pet newPet = new Pet();
-        newPet.setName("Patita II");
-        newPet.setDateAdoption(LocalDate.of(2024,5,20));
-        petRepository.save(newPet);
+        Pet pet = new Pet();
+        pet.setId(1500);
 
-        Optional<Pet> result = petRepository.findById(newPet.getId());
+        when(petRepository.save(any(Pet.class))).thenReturn(pet);
 
-        assertNotNull(result);
-        assertTrue(result.isPresent());
-        assertEquals(newPet.getName(), result.get().getName());
+        Pet result = petService.addPet(pet);
+
+        assertEquals(pet.getId(), result.getId());
+        assertEquals(pet.getName(), result.getName());
+
+        verify(petRepository).save(any(Pet.class));
     }
 
     @Test
     void getPetById() {
-        Optional<Pet> pet = petRepository.findById(2000);
-        assertNotNull(pet);
-        assertTrue(pet.isPresent());
-        assertEquals("Warren T.", pet.get().getName());
+        Pet adopter = new Pet();
+        adopter.setId(1);
+
+        when(petRepository.findById(1)).thenReturn(Optional.of(adopter));
+
+        Optional<Pet> result = petService.getPetById(adopter.getId());
+
+        assertTrue(result.isPresent());
+        assertEquals(adopter.getName(), result.get().getName());
+        verify(petRepository).findById(adopter.getId());
     }
 
     @Test
-    void getPetByName() {
-        List<Pet> pets = petRepository.findByNameIgnoreCaseContaining("te");
-        assertNotNull(pets);
-        assertFalse(pets.isEmpty());
-        assertEquals(2, pets.size());
+    void findPetsByName() {
+        String name = "ex";
+
+        List<Pet> adopters = List.of(
+                new Pet(),
+                new Pet(),
+                new Pet()
+        );
+
+        when(petRepository.findByNameIgnoreCaseContaining(name)).thenReturn(adopters);
+
+        List<Pet> result = petService.findPetsByName(name);
+
+        assertNotNull(result);
+        assertEquals(adopters.size(),result.size());
+
+        verify(petRepository).findByNameIgnoreCaseContaining(name);
     }
 
     @Test
-    void getPetsWithAdopter() {
-        List<Pet> pets = petRepository.findByAdopterIsNotNull();
-        assertNotNull(pets);
-        assertFalse(pets.isEmpty());
+    void findPetsWithAdopter() {
+
+        List<Pet> pets = new ArrayList<>();
+
+        for(int i = 0; i < 5; i++) {
+            Pet pet = new Pet();
+
+            pet.setAdopter(new Adopter());
+
+            pets.add(pet);
+        }
+
+        when(petRepository.findByAdopterIsNotNull()).thenReturn(pets);
+
+        List<Pet> result = petService.findPetsWithAdopter();
+
+        assertNotNull(result);
+        assertEquals(pets.size(),result.size());
+
+        verify(petRepository).findByAdopterIsNotNull();
     }
 
     @Test
-    void getPetsWithoutAdopter() {
-        List<Pet> pets = petRepository.findByAdopterIsNull();
-        assertNotNull(pets);
-        assertFalse(pets.isEmpty());
+    void findPetsWithoutAdopter() {
+        List<Pet> adopters = List.of(
+                new Pet(),
+                new Pet(),
+                new Pet()
+        );
+
+        when(petRepository.findByAdopterIsNull()).thenReturn(adopters);
+
+        List<Pet> result = petService.findPetsWithoutAdopter();
+
+        assertNotNull(result);
+        assertEquals(adopters.size(),result.size());
+        assertNull(result.get(0).getAdopter());
+        assertNull(result.get(1).getAdopter());
+        assertNull(result.get(2).getAdopter());
+
+        verify(petRepository).findByAdopterIsNull();
     }
 
     @Test
     void updatePet() {
         Pet pet = new Pet();
-        pet.setId(2000);
-        pet.setName("Chow");
-        pet.setDateAdoption(LocalDate.of(2024,5,20));
-        petRepository.save(pet);
+        pet.setId(570);
+        pet.setName("Rock");
 
-        Optional<Pet> result = petRepository.findById(pet.getId());
+        when(petRepository.save(any(Pet.class))).thenReturn(pet);
 
-        assertNotNull(result);
-        assertTrue(result.isPresent());
-        assertEquals(pet.getName(), result.get().getName());
+        Pet result = petService.updatePet(pet);
+
+        assertEquals(pet.getName(), result.getName());
+        assertEquals(pet.getType(), result.getType());
+
+        verify(petRepository).save(any(Pet.class));
     }
 
     @Test
     void deletePet() {
-        petRepository.deleteById(2005);
-        Optional<Pet> result = petRepository.findById(2005);
-        assertFalse(result.isPresent());
+        int adopterId = 13;
+
+        doNothing().when(petRepository).deleteById(adopterId);
+
+        boolean result = petService.deletePet(adopterId);
+
+        assertTrue(result);
+
+        verify(petRepository).deleteById(adopterId);
     }
 }

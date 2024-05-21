@@ -3,10 +3,12 @@ package org.adoption.services;
 import org.adoption.domain.Adopter;
 import org.adoption.repository.AdopterRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class AdopterServiceImpl implements AdopterService {
 
@@ -54,8 +56,12 @@ public class AdopterServiceImpl implements AdopterService {
 
     @Override
     public Boolean deleteAdopter(Integer adopterId) {
-        adopterRepository.deleteById(adopterId);
-        return true;
+        try {
+            adopterRepository.deleteById(adopterId);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
 }

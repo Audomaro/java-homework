@@ -1,13 +1,12 @@
-package org.adoption.services;
+package org.adoption.repository;
 
 import org.adoption.domain.Adopter;
 import org.adoption.domain.Pet;
-import org.adoption.repository.PetRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.url=jdbc:h2:mem:testdb",
         "spring.jpa.hibernate.ddl-auto=create-drop"
 })
-class PetServiceImplJPATest {
+class PetRepositoryImplJPATest {
     @Autowired
     private PetRepository petRepository;
 
@@ -58,7 +57,7 @@ class PetServiceImplJPATest {
     }
 
     @Test
-    void getAllPets() {
+    void findAllPets() {
         List<Pet> result = petRepository.findAll();
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -90,7 +89,7 @@ class PetServiceImplJPATest {
 
 
     @Test
-    void getPetByName() {
+    void findPetsByName() {
         List<Pet> pets = petRepository.findByNameIgnoreCaseContaining("prueba");
         assertNotNull(pets);
         assertFalse(pets.isEmpty());
@@ -98,14 +97,14 @@ class PetServiceImplJPATest {
     }
 
     @Test
-    void getPetsWithAdopter() {
+    void findPetsWithAdopter() {
         List<Pet> pets = petRepository.findByAdopterIsNotNull();
         assertNotNull(pets);
         assertFalse(pets.isEmpty());
     }
 
     @Test
-    void getPetsWithoutAdopter() {
+    void findPetsWithoutAdopter() {
         List<Pet> pets = petRepository.findByAdopterIsNull();
         assertNotNull(pets);
         assertFalse(pets.isEmpty());
@@ -127,11 +126,10 @@ class PetServiceImplJPATest {
         assertEquals(pet.getName(), result.get().getName());
     }
 
-
     @Test
     void deletePet() {
         petRepository.deleteById(7);
-        Optional<Pet> result = petRepository.findById(2005);
+        Optional<Pet> result = petRepository.findById(7);
         assertFalse(result.isPresent());
     }
 }

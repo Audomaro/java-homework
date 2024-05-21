@@ -22,7 +22,7 @@ public class AdopterController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Adopter>> getAdopters() {
+    public ResponseEntity<?> getAdopters() {
         List<Adopter> adopter = adopterService.findAllAdopters();
         return ResponseEntity.ok(adopter);
     }
@@ -38,25 +38,25 @@ public class AdopterController {
     }
 
     @GetMapping("/by-name/{name}")
-    public ResponseEntity<List<Adopter>> getByName(@PathVariable String name) {
+    public ResponseEntity<?> getByName(@PathVariable String name) {
         List<Adopter> adopter = adopterService.findAdopterByName(name);
         return ResponseEntity.ok(adopter);
     }
 
     @GetMapping("with-pets")
-    public ResponseEntity<List<Adopter>> getAdopterWithPets() {
+    public ResponseEntity<?> getAdopterWithPets() {
         List<Adopter> adopter = adopterService.findAdopterWithPets();
         return ResponseEntity.ok(adopter);
     }
 
     @GetMapping("without-pets")
-    public ResponseEntity<List<Adopter>> getAdopterWithoutPets() {
+    public ResponseEntity<?> getAdopterWithoutPets() {
         List<Adopter> adopter = adopterService.findAdopterWithoutPets();
         return ResponseEntity.ok(adopter);
     }
 
     @PostMapping
-    public ResponseEntity<Adopter> addAdopter(@RequestBody Adopter adopter) {
+    public ResponseEntity<?> addAdopter(@RequestBody Adopter adopter) {
         Adopter createdAdopter = adopterService.addAdopterWithPets(adopter);
 
         URI newResource = ServletUriComponentsBuilder
@@ -69,14 +69,24 @@ public class AdopterController {
     }
 
     @PutMapping
-    public ResponseEntity<Adopter> updateAdopter(@RequestBody Adopter adopter) {
+    public ResponseEntity<?> updateAdopter(@RequestBody Adopter adopter) {
         Adopter updatedAdopter = adopterService.updateAdopter(adopter);
+
+        if (updatedAdopter == null ) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No adopter with id: " + adopter.getId());
+        }
+
         return ResponseEntity.ok(updatedAdopter);
     }
 
     @DeleteMapping("/{adopterId}")
-    public ResponseEntity<Void> deleteAdopter(@PathVariable Integer adopterId) {
-        adopterService.deleteAdopter(adopterId);
+    public ResponseEntity<?> deleteAdopter(@PathVariable Integer adopterId) {
+        boolean result = adopterService.deleteAdopter(adopterId);
+
+        if(!result) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No adopter with id: " + adopterId);
+        }
         return ResponseEntity.noContent().build();
     }
 
