@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
         "spring.datasource.url=jdbc:h2:mem:testdb",
         "spring.jpa.hibernate.ddl-auto=create-drop"
 })
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class AdopterRepositoryImplJPATest {
     @Autowired
     private AdopterRepository adopterRepository;
@@ -26,10 +28,10 @@ class AdopterRepositoryImplJPATest {
 
     @BeforeEach
     void setup() {
-        entityManager.getEntityManager().createNativeQuery("DELETE FROM t_adopter").executeUpdate();
-        entityManager.getEntityManager().createNativeQuery("DELETE FROM t_pet").executeUpdate();
-        entityManager.getEntityManager().createNativeQuery("ALTER TABLE t_adopter ALTER COLUMN adopter_id RESTART WITH 1").executeUpdate();
-        entityManager.getEntityManager().createNativeQuery("ALTER TABLE t_pet ALTER COLUMN pet_id RESTART WITH 1").executeUpdate();
+//        entityManager.getEntityManager().createNativeQuery("DELETE FROM t_adopter").executeUpdate();
+//        entityManager.getEntityManager().createNativeQuery("DELETE FROM t_pet").executeUpdate();
+//        entityManager.getEntityManager().createNativeQuery("ALTER TABLE t_adopter ALTER COLUMN adopter_id RESTART WITH 1").executeUpdate();
+//        entityManager.getEntityManager().createNativeQuery("ALTER TABLE t_pet ALTER COLUMN pet_id RESTART WITH 1").executeUpdate();
 
         Adopter adopter1 = new Adopter();
         adopter1.setName("Isiah Deckow");
